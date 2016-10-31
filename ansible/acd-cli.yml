@@ -1,0 +1,11 @@
+#!/usr/bin/env ansible-playbook
+---
+- name: Install acd-cli
+  hosts: localhost
+  remote_user: vagrant
+  serial: 1
+  roles:
+    - common
+    - git
+    - acd-cli
+

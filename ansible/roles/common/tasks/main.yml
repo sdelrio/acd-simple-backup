@@ -1,0 +1,8 @@
+- name: Make sure not needed services are not running
+  service:
+    name: "{{ item }}"
+    state: stopped
+    enabled: no
+  ignore_errors: yes
+  with_items: obsolete_services
+  tags: [common]

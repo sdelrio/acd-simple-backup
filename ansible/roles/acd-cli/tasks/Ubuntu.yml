@@ -1,0 +1,13 @@
+---
+- name: Install python required packages
+  apt:  name="{{item}}" state=present
+  with_items:
+    - python3
+    - python3-pip
+
+- name: Init script acd_cli
+  copy: src=acd_cli dest=/etc/init.d/acd_cli mode=0744
+
+- name: Service mount on onstart
+  service: name=acd_cli state=started enabled=yes
+

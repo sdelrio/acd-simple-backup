@@ -1,0 +1,10 @@
+---
+acd_mount_dir: /acd
+acd_mount_user: vagrant
+acd_mount_group: vagrant
+
+acd_source_dir: /backup
+acd_dest_dir: "{{ acd_mount_dir }}"
+
+acd_cron_rsync: "rsync -rtv --delete-delay {{ acd_source_dir }} {{ acd_idest_dir }}"
+

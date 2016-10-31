@@ -1,0 +1,52 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          acd_cli
+# Required-Start:    $local_fs $time
+# Required-Stop:     $local_fs
+# Default-Start:     S
+# Default-Stop:      0 6
+# Short-Description: Save and restore random seed between restarts.
+# Description:       This script saves the random seed between restarts.
+#                    It is called from the boot, halt and reboot scripts.
+### END INIT INFO
+
+PATH=/sbin:/bin
+vuid=`/usr/bin/id -u vagrant`
+vgid=`/usr/bin/id -g vagrant`
+acd_cli=/usr/local/bin/acd_cli
+
+. /lib/lsb/init-functions
+
+case "$1" in
+  start|"")
+	[ "$VERBOSE" = no ] || log_action_begin_msg "Initializing Amazon Cloud Drive"
+        su vagrant -c "sudo $acd_cli mount --uid $vuid --gid $vgid --allow-other /acd 2>&1"
+	ES=$?
+	[ "$VERBOSE" = no ] || log_action_end_msg $ES
+	;;
+  stop)
+        su vagrant -c "sudo $acd_cli umount /acd 2>&1"
+	[ "$VERBOSE" = no ] || log_action_begin_msg "Umounting Amazon Cloud Drive"
+	umask 077
+	ES=$?
+	[ "$VERBOSE" = no ] || log_action_end_msg $ES
+	;;
+  status)
+        su vagrant -c "sudo $acd_cli usage 2>&1"
+	exit $?
+	;;
+  version)
+        su vagrant -c "sudo $acd_cli version 2>&1"
+	exit $?
+	;;
+  restart|reload|force-reload)
+	echo "Error: argument '$1' not supported" >&2
+	exit 3
+	;;
+  *)
+	echo "Usage: acd_cli start|stop|status|version" >&2
+	exit 3
+	;;
+esac
+
+:

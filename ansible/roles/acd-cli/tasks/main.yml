@@ -1,0 +1,26 @@
+---
+# tasks file for acd-cli
+- include: "{{ansible_distribution}}.yml"
+
+#- name: Clone acd_cli rrepo
+#  git:
+#       repo=git://foosball.example.org/path/to/repo.git
+#       dest=/srv/checkout
+#       version=release-0.22
+#
+#    pip3 install --upgrade git+https://github.com/yadayada/acd_cli.git
+
+- name: Pip3 acd_cli
+  pip:
+      name='git+https://github.com/yadayada/acd_cli.git'
+      editable=false
+      executable=pip3
+      extra_args='--upgrade'
+
+- name: Check /acd folder exists
+  file:
+      state=directory
+      path=/acd 
+      owner=vagrant
+      group=vagrant
+      mode=0755 
