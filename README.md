@@ -15,7 +15,7 @@ acd_cli ACD auth
 
 Visit https://tensile-runway-92512.appspot.com in a web browser, login.
 
-Take oauth_data output and write to `/vagrant/.cache/acd_cli/oauth_data`
+Take oauth_data output and write to `/home/vagrant/.cache/acd_cli/oauth_data` inside the VM.
 
 ```
 $ acd_cli init
